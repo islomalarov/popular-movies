@@ -1,23 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import LikeButtonComponent from '../ui/LikeButtonComponent/LikeButtonComponent';
 
-interface MovieProps {
-  movie: {
-    id: number;
-    title: string;
-    poster_path: string;
-    release_date: string;
-  };
-  isLiked: boolean;
-  onLikeToggle: (movieId: number) => void;
-  onDelete: (movieId: number) => void;
+interface MovieComponentProps {
+  movie: any;
+  onDelete: (id: number) => void;
 }
-const MovieComponent = ({ movie, isLiked, onLikeToggle, onDelete }: MovieProps) => {
+const MovieComponent = ({ movie, onDelete }: MovieComponentProps) => {
   return (
     <div
-      key={movie.id}
       style={{
         border: '1px solid #ccc',
         padding: '16px',
@@ -34,18 +26,10 @@ const MovieComponent = ({ movie, isLiked, onLikeToggle, onDelete }: MovieProps) 
       />
       <h3 style={{ fontSize: '16px', marginTop: '8px' }}>{movie.title}</h3>
       <p>{movie.release_date}</p>
-      <div
-        onClick={() => onLikeToggle(movie.id)}
-        style={{
-          position: 'absolute',
-          top: '15px',
-          right: '18px',
-          cursor: 'pointer',
-          color: isLiked ? 'red' : 'grey',
-          fontSize: '24px',
-        }}>
-        <FontAwesomeIcon icon={isLiked ? solidHeart : regularHeart} />
-      </div>
+
+      {/* Иконка лайка */}
+      <LikeButtonComponent movieId={movie.id} />
+
       {/* Иконка удаления */}
       <div
         onClick={() => onDelete(movie.id)}
