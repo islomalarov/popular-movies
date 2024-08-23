@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useGetPopularMoviesQuery } from './services/movies';
+import React, { useEffect, useState } from 'react';
+import { Movie, useGetPopularMoviesQuery } from './services/movies';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
-
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 interface LikedMovies {
   [key: number]: boolean;
 }
@@ -11,6 +11,7 @@ interface LikedMovies {
 const App: React.FC = () => {
   const { data, error, isLoading } = useGetPopularMoviesQuery();
   const [likedMovies, setLikedMovies] = useState<LikedMovies>({});
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   const toggleLike = (movieId: number) => {
     setLikedMovies((prev) => ({
@@ -19,12 +20,22 @@ const App: React.FC = () => {
     }));
   };
 
+  const handleDelete = (movieId: number) => {
+    setMovies(movies.filter((movie) => movie.id !== movieId));
+  };
+
+  useEffect(() => {
+    if (data) {
+      setMovies(data.results);
+    }
+  }, [data]);
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.toString()}</p>;
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', padding: '16px' }}>
-      {data?.results.map((movie) => (
+      {movies.map((movie) => (
         <div
           key={movie.id}
           style={{
@@ -54,6 +65,19 @@ const App: React.FC = () => {
               fontSize: '24px',
             }}>
             <FontAwesomeIcon icon={likedMovies[movie.id] ? solidHeart : regularHeart} />
+          </div>
+          {/* Иконка удаления */}
+          <div
+            onClick={() => handleDelete(movie.id)}
+            style={{
+              position: 'absolute',
+              top: '15px',
+              left: '18px',
+              cursor: 'pointer',
+              color: 'grey',
+              fontSize: '24px',
+            }}>
+            <FontAwesomeIcon icon={faTrashAlt} />
           </div>
         </div>
       ))}
