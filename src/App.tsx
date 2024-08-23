@@ -1,9 +1,20 @@
-// App.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useGetPopularMoviesQuery } from './services/movies';
+
+interface LikedMovies {
+  [key: number]: boolean;
+}
 
 const App: React.FC = () => {
   const { data, error, isLoading } = useGetPopularMoviesQuery();
+  const [likedMovies, setLikedMovies] = useState<LikedMovies>({});
+
+  const toggleLike = (movieId: number) => {
+    setLikedMovies((prev) => ({
+      ...prev,
+      [movieId]: !prev[movieId],
+    }));
+  };
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.toString()}</p>;
@@ -20,6 +31,7 @@ const App: React.FC = () => {
             margin: '16px',
             width: '200px',
             textAlign: 'center',
+            position: 'relative',
           }}>
           <img
             src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
@@ -28,6 +40,18 @@ const App: React.FC = () => {
           />
           <h3 style={{ fontSize: '16px', marginTop: '8px' }}>{movie.title}</h3>
           <p>{movie.release_date}</p>
+          <div
+            onClick={() => toggleLike(movie.id)}
+            style={{
+              position: 'absolute',
+              top: '8px',
+              right: '8px',
+              cursor: 'pointer',
+              // color: likedMovies[movie.id] ? 'red' : 'grey',
+              fontSize: '24px',
+            }}>
+            {likedMovies[movie.id] ? '❤️' : '🤍'}
+          </div>
         </div>
       ))}
     </div>
