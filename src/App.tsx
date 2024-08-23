@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useGetPopularMoviesQuery } from './services/movies';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 
 interface LikedMovies {
   [key: number]: boolean;
@@ -44,13 +47,13 @@ const App: React.FC = () => {
             onClick={() => toggleLike(movie.id)}
             style={{
               position: 'absolute',
-              top: '8px',
-              right: '8px',
+              top: '15px',
+              right: '18px',
               cursor: 'pointer',
-              // color: likedMovies[movie.id] ? 'red' : 'grey',
+              color: likedMovies[movie.id] ? 'red' : 'grey',
               fontSize: '24px',
             }}>
-            {likedMovies[movie.id] ? '❤️' : '🤍'}
+            <FontAwesomeIcon icon={likedMovies[movie.id] ? solidHeart : regularHeart} />
           </div>
         </div>
       ))}
