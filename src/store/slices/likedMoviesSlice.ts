@@ -1,22 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { LikedMoviesState } from '../../interface/movie';
 
-interface LikedMoviesState {
-  [key: number]: boolean;
-}
-
-const initialState: LikedMoviesState = {};
+const initialState: LikedMoviesState = {
+  likedMovies: {},
+  showLikedOnly: false,
+};
 
 const likedMoviesSlice = createSlice({
   name: 'likedMovies',
   initialState,
   reducers: {
     toggleLike(state, action: PayloadAction<number>) {
-      const movieId = action.payload;
-      state[movieId] = !state[movieId];
+      state.likedMovies[action.payload] = !state.likedMovies[action.payload];
+    },
+    toggleShowLikedOnly: (state) => {
+      state.showLikedOnly = !state.showLikedOnly;
     },
   },
 });
 
-export const { toggleLike } = likedMoviesSlice.actions;
+export const { toggleLike, toggleShowLikedOnly } = likedMoviesSlice.actions;
 
 export default likedMoviesSlice.reducer;

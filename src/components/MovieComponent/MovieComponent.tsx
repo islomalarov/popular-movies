@@ -2,12 +2,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
 import LikeButtonComponent from '../ui/LikeButtonComponent/LikeButtonComponent';
+import { deleteMovie } from '../../store/slices/moviesSlice';
+import { MovieComponentProps } from '../../interface/movie';
 
-interface MovieComponentProps {
-  movie: any;
-  onDelete: (id: number) => void;
-}
-const MovieComponent = ({ movie, onDelete }: MovieComponentProps) => {
+const MovieComponent = ({ movie }: MovieComponentProps) => {
+  const dispatch = useDispatch();
+
   return (
     <div
       style={{
@@ -32,7 +32,7 @@ const MovieComponent = ({ movie, onDelete }: MovieComponentProps) => {
 
       {/* Иконка удаления */}
       <div
-        onClick={() => onDelete(movie.id)}
+        onClick={() => dispatch(deleteMovie(movie.id))}
         style={{
           position: 'absolute',
           top: '15px',

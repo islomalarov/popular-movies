@@ -4,14 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { RootState } from '../../../store/store';
-
-interface LikeButtonProps {
-  movieId: number;
-}
+import { LikeButtonProps } from '../../../interface/movie';
 
 const LikeButtonComponent = ({ movieId }: LikeButtonProps) => {
-  const likedMovies = useSelector((state: RootState) => state.likedMovies);
+  const likedMovies = useSelector((state: RootState) => state.likedMovies.likedMovies);
   const dispatch = useDispatch();
+
   return (
     <div
       onClick={() => dispatch(toggleLike(movieId))}

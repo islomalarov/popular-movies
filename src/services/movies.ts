@@ -1,15 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-export interface Movie {
-  id: number;
-  title: string;
-  poster_path: string;
-  release_date: string;
-}
-
-export interface MoviesResponse {
-  results: Movie[];
-}
+import { MoviesResponse } from '../interface/movie';
 
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
