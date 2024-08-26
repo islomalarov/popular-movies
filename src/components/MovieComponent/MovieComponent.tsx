@@ -1,13 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch } from 'react-redux';
-import LikeButtonComponent from '../ui/LikeButtonComponent/LikeButtonComponent';
-import { deleteMovie } from '../../store/slices/moviesSlice';
 import { MovieComponentProps } from '../../interface/movie';
+import LikeButtonComponent from '../ui/LikeButtonComponent/LikeButtonComponent';
+import DeleteButtonComponent from '../ui/DeleteButtonComponent/DeleteButtonComponent';
 
 const MovieComponent = ({ movie }: MovieComponentProps) => {
-  const dispatch = useDispatch();
-
   return (
     <div
       style={{
@@ -31,18 +26,7 @@ const MovieComponent = ({ movie }: MovieComponentProps) => {
       <LikeButtonComponent movieId={movie.id} />
 
       {/* Иконка удаления */}
-      <div
-        onClick={() => dispatch(deleteMovie(movie.id))}
-        style={{
-          position: 'absolute',
-          top: '15px',
-          left: '18px',
-          cursor: 'pointer',
-          color: 'grey',
-          fontSize: '24px',
-        }}>
-        <FontAwesomeIcon icon={faTrashAlt} />
-      </div>
+      <DeleteButtonComponent movieId={movie.id} />
     </div>
   );
 };
