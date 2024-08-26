@@ -8,6 +8,7 @@ const DeleteButtonComponent = ({ movieId }: LikeButtonProps) => {
   const dispatch = useDispatch();
   return (
     <div
+      className="delete-button"
       onClick={() => dispatch(deleteMovie(movieId))}
       style={{
         position: 'absolute',

@@ -1,8 +1,20 @@
 import { MovieComponentProps } from '../../interface/movie';
-import LikeButtonComponent from '../ui/LikeButtonComponent/LikeButtonComponent';
-import DeleteButtonComponent from '../ui/DeleteButtonComponent/DeleteButtonComponent';
+import { useNavigate } from 'react-router-dom';
+import LikeButtonComponent from '../ui/LikeButtonComponent';
+import DeleteButtonComponent from '../ui/DeleteButtonComponent';
 
 const MovieComponent = ({ movie }: MovieComponentProps) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (
+      (e.target as HTMLElement).closest('.like-button') ||
+      (e.target as HTMLElement).closest('.delete-button')
+    ) {
+      return;
+    }
+    navigate(`/movie/${movie.id}`);
+  };
   return (
     <div
       style={{
@@ -13,7 +25,9 @@ const MovieComponent = ({ movie }: MovieComponentProps) => {
         width: '200px',
         textAlign: 'center',
         position: 'relative',
-      }}>
+        cursor: 'pointer',
+      }}
+      onClick={handleCardClick}>
       <img
         src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
         alt={movie.title}
@@ -21,11 +35,7 @@ const MovieComponent = ({ movie }: MovieComponentProps) => {
       />
       <h3 style={{ fontSize: '16px', marginTop: '8px' }}>{movie.title}</h3>
       <p>{movie.release_date}</p>
-
-      {/* Иконка лайка */}
       <LikeButtonComponent movieId={movie.id} />
-
-      {/* Иконка удаления */}
       <DeleteButtonComponent movieId={movie.id} />
     </div>
   );

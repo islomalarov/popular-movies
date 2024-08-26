@@ -7,11 +7,12 @@ import { RootState } from '../../../store/store';
 import { LikeButtonProps } from '../../../interface/movie';
 
 const LikeButtonComponent = ({ movieId }: LikeButtonProps) => {
-  const likedMovies = useSelector((state: RootState) => state.likedMovies.likedMovies);
+  const { likedMovies } = useSelector((state: RootState) => state.likedMovies);
   const dispatch = useDispatch();
 
   return (
     <div
+      className="like-button"
       onClick={() => dispatch(toggleLike(movieId))}
       style={{
         position: 'absolute',
